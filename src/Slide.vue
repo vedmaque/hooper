@@ -55,7 +55,9 @@
           : Math.floor(currentSlide + siblings - 1);
       },
       isActive() {
-        return this.index >= this.lower  && this.index <= this.upper;
+        return (
+          this.index >= this.lower  && this.index <= this.upper
+        );
       },
       isPrev() {
         return this.index <= this.lower - 1;
@@ -64,7 +66,11 @@
         return this.index >= this.upper + 1;
       },
       isCurrent() {
-        return this.index === this.$hooper.currentSlide;
+        return (
+          this.index === this.$hooper.currentSlide ||
+          this.index === this.$hooper.currentSlide - this.$hooper.slidesCount ||
+          this.index === this.$hooper.currentSlide + this.$hooper.slidesCount
+        );
       }
     },
   }
