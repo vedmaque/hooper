@@ -337,7 +337,7 @@
 
         if (this.config.touchDrag) {
           this.$refs.track.addEventListener('touchstart', this.onDragStart, {
-            passive: true
+            passive: false
           });
         }
 

@@ -241,7 +241,7 @@ export default {
         this.$refs.track.addEventListener('mousedown', this.onDragStart);
       }
       if (this.config.touchDrag) {
-        this.$refs.track.addEventListener('touchstart', this.onDragStart, { passive: true });
+        this.$refs.track.addEventListener('touchstart', this.onDragStart, { passive: false });
       }
       if (this.config.keysControl) {
         this.$el.addEventListener('keydown', this.onKeypress);
