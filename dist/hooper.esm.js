@@ -502,6 +502,7 @@ var script = {
       document.addEventListener(this.isTouch ? 'touchmove' : 'mousemove', this.onDrag);
       document.addEventListener(this.isTouch ? 'touchend' : 'mouseup', this.onDragEnd);
       event.preventDefault();
+      event.stopPropagation();
     },
     onDrag: function onDrag(event) {
       if (this.isSliding) {
@@ -513,6 +514,7 @@ var script = {
       this.delta.x = this.endPosition.x - this.startPosition.x;
       this.delta.y = this.endPosition.y - this.startPosition.y;
       event.preventDefault();
+      event.stopPropagation();
     },
     onDragEnd: function onDragEnd() {
       var tolerance = this.config.shortDrag ? 0.5 : 0.15;
@@ -881,7 +883,7 @@ var script$1 = {
       return this.index >= this.upper + 1;
     },
     isCurrent: function isCurrent() {
-      return this.index === this.$hooper.currentSlide;
+      return this.index === this.$hooper.currentSlide || this.index === this.$hooper.currentSlide - this.$hooper.slidesCount || this.index === this.$hooper.currentSlide + this.$hooper.slidesCount;
     }
   }
 };
