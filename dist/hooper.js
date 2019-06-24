@@ -519,7 +519,6 @@
         this.endPosition.y = this.isTouch ? event.touches[0].clientY : event.clientY;
         this.delta.x = this.endPosition.x - this.startPosition.x;
         this.delta.y = this.endPosition.y - this.startPosition.y;
-        event.preventDefault();
         event.stopPropagation();
       },
       onDragEnd: function onDragEnd() {
@@ -1245,11 +1244,11 @@
   }, __vue_inject_styles__$4, __vue_script__$4, __vue_scope_id__$4, __vue_is_functional_template__$4, __vue_module_identifier__$4, undefined, undefined);
 
   exports.Hooper = Hooper;
-  exports.Slide = Slide;
-  exports.Progress = Progress;
-  exports.Pagination = Pagination;
-  exports.Navigation = Navigation;
   exports.Icons = Icons;
+  exports.Navigation = Navigation;
+  exports.Pagination = Pagination;
+  exports.Progress = Progress;
+  exports.Slide = Slide;
   exports.addonMixin = Mixin;
   exports.default = Hooper;
 

@@ -513,7 +513,6 @@ var script = {
       this.endPosition.y = this.isTouch ? event.touches[0].clientY : event.clientY;
       this.delta.x = this.endPosition.x - this.startPosition.x;
       this.delta.y = this.endPosition.y - this.startPosition.y;
-      event.preventDefault();
       event.stopPropagation();
     },
     onDragEnd: function onDragEnd() {
@@ -1239,4 +1238,4 @@ var Navigation = normalizeComponent_1({
 }, __vue_inject_styles__$4, __vue_script__$4, __vue_scope_id__$4, __vue_is_functional_template__$4, __vue_module_identifier__$4, undefined, undefined);
 
 export default Hooper;
-export { Hooper, Slide, Progress, Pagination, Navigation, Icons, Mixin as addonMixin };
+export { Hooper, Icons, Navigation, Pagination, Progress, Slide, Mixin as addonMixin };
