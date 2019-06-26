@@ -330,8 +330,17 @@ var script = {
       }
 
       if (this.config.touchDrag) {
-        this.$refs.track.addEventListener('touchstart', this.onDragStart, {
-          passive: false
+        this.$refs.list.addEventListener('touchstart', this.onDragStart, {
+          passive: false,
+          capture: false
+        });
+        this.$refs.list.addEventListener('touchmove', this.onDrag, {
+          passive: false,
+          capture: false
+        });
+        this.$refs.list.addEventListener('touchend', this.onDragEnd, {
+          passive: true,
+          capture: false
         });
       }
 
@@ -499,10 +508,6 @@ var script = {
       this.isDragging = true;
       this.startPosition.x = this.isTouch ? event.touches[0].clientX : event.clientX;
       this.startPosition.y = this.isTouch ? event.touches[0].clientY : event.clientY;
-      document.addEventListener(this.isTouch ? 'touchmove' : 'mousemove', this.onDrag);
-      document.addEventListener(this.isTouch ? 'touchend' : 'mouseup', this.onDragEnd);
-      event.preventDefault();
-      event.stopPropagation();
     },
     onDrag: function onDrag(event) {
       if (this.isSliding) {
@@ -535,8 +540,6 @@ var script = {
 
       this.delta.x = 0;
       this.delta.y = 0;
-      document.removeEventListener(this.isTouch ? 'touchmove' : 'mousemove', this.onDrag);
-      document.removeEventListener(this.isTouch ? 'touchend' : 'mouseup', this.onDragEnd);
       this.restartTimer();
     },
     onTransitionend: function onTransitionend() {
@@ -642,6 +645,9 @@ var script = {
   },
   beforeDestroy: function beforeDestroy() {
     window.removeEventListener('resize', this.update);
+    this.$refs.list.removeEventListener('touchstart', this.onDragStart);
+    this.$refs.list.removeEventListener('touchmove', this.onDrag);
+    this.$refs.list.removeEventListener('touchend', this.onDragEnd);
 
     if (this.timer) {
       this.timer.stop();
@@ -769,6 +775,7 @@ var __vue_render__ = function __vue_render__() {
       }
     }
   }, [_c('div', {
+    ref: "list",
     staticClass: "hooper-list"
   }, [_c('ul', {
     ref: "track",

@@ -11,7 +11,7 @@
       'is-rtl': config.rtl,
     }"
   >
-    <div class="hooper-list">
+    <div class="hooper-list" ref="list">
       <ul
         class="hooper-track"
         :class="{ 'is-dragging': isDragging }"
@@ -241,7 +241,17 @@ export default {
         this.$refs.track.addEventListener('mousedown', this.onDragStart);
       }
       if (this.config.touchDrag) {
-        this.$refs.track.addEventListener('touchstart', this.onDragStart, { passive: false });
+        this.$refs.list.addEventListener(
+          'touchstart',
+          this.onDragStart, { passive: false, capture: false });
+        this.$refs.list.addEventListener(
+          'touchmove',
+          this.onDrag, { passive: false, capture: false }
+        );
+        this.$refs.list.addEventListener(
+          'touchend',
+          this.onDragEnd, { passive: true, capture: false }
+        );
       }
       if (this.config.keysControl) {
         this.$el.addEventListener('keydown', this.onKeypress);
@@ -386,18 +396,6 @@ export default {
       this.isDragging = true;
       this.startPosition.x = this.isTouch ? event.touches[0].clientX : event.clientX;
       this.startPosition.y = this.isTouch ? event.touches[0].clientY : event.clientY;
-
-      document.addEventListener(
-        this.isTouch ? 'touchmove' : 'mousemove',
-        this.onDrag
-      );
-      document.addEventListener(
-        this.isTouch ? 'touchend' : 'mouseup',
-        this.onDragEnd
-      );
-      
-      event.preventDefault();
-      event.stopPropagation();
     },
     onDrag (event) {
       if (this.isSliding) {
@@ -426,14 +424,6 @@ export default {
       }
       this.delta.x = 0;
       this.delta.y = 0;
-      document.removeEventListener(
-        this.isTouch ? 'touchmove' : 'mousemove',
-        this.onDrag
-      );
-      document.removeEventListener(
-        this.isTouch ? 'touchend' : 'mouseup',
-        this.onDragEnd
-      );
       this.restartTimer();
     },
     onTransitionend () {
@@ -527,6 +517,9 @@ export default {
   },
   beforeDestroy () {
     window.removeEventListener('resize', this.update);
+    this.$refs.list.removeEventListener('touchstart', this.onDragStart);
+    this.$refs.list.removeEventListener('touchmove', this.onDrag);
+    this.$refs.list.removeEventListener('touchend', this.onDragEnd);
     if (this.timer) {
       this.timer.stop();
     }
